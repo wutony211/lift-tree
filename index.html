@@ -1,456 +1,49 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>我的十年人生樹</title>
-
 <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
 <style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    padding:20px;
-    font-family:"Microsoft JhengHei",sans-serif;
-    background:#f5f7fa;
-}
-
-.container{
-    max-width:1600px;
-    margin:auto;
-}
-
-.form-card{
-
-    background:white;
-
-    padding:20px;
-
-    border-radius:12px;
-
-    box-shadow:0 2px 8px rgba(0,0,0,.15);
-}
-
-textarea,
-input{
-
-    width:100%;
-
-    padding:10px;
-
-    margin-top:5px;
-    margin-bottom:10px;
-
-    border:1px solid #ccc;
-
-    border-radius:8px;
-}
-
-button{
-
-    background:#2563eb;
-
-    color:white;
-
-    border:none;
-
-    padding:12px 20px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    margin-right:10px;
-}
-
-button:hover{
-    background:#1d4ed8;
-}
-
-.poster{
-
-    width:1500px;
-
-    height:1000px;
-
-    background:white;
-
-    position:relative;
-
-    border:2px solid #333;
-
-    margin-top:20px;
-
-    overflow:hidden;
-}
-
-.left-panel{
-
-    position:absolute;
-
-    left:20px;
-
-    top:20px;
-
-    width:700px;
-
-    height:940px;
-}
-
-.letter-box{
-
-    border:2px dashed #888;
-
-    padding:15px;
-
-    height:850px;
-
-    overflow:hidden;
-
-    white-space:pre-wrap;
-
-    line-height:1.8;
-}
-
-.tree-area{
-
-    position:absolute;
-
-    right:0;
-
-    top:0;
-
-    width:760px;
-
-    height:1000px;
-}
-
-.tree-area img{
-
-    width:100%;
-
-    display:block;
-}
-
-.overlay{
-
-    position:absolute;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    font-size:13px;
-
-    line-height:1.2;
-
-    padding:4px;
-
-    word-break:break-word;
-}
-
-/* ===== 葉片 ===== */
-
-.leaf{
-
-    width:100px;
-
-    height:60px;
-
-    background:rgba(190,255,190,.45);
-
-    border-radius:12px;
-}
-
-.leaf1{left:90px;top:90px;}
-.leaf2{left:300px;top:20px;}
-.leaf3{left:530px;top:90px;}
-
-.leaf4{left:45px;top:280px;}
-.leaf5{left:270px;top:250px;}
-.leaf6{left:560px;top:280px;}
-
-/* ===== 花朵 ===== */
-
-.flower{
-
-    width:70px;
-
-    height:70px;
-
-    border-radius:50%;
-
-    background:rgba(255,220,230,.65);
-
-    font-size:12px;
-}
-
-.flower1{left:250px;top:205px;}
-.flower2{left:475px;top:205px;}
-
-.flower3{left:190px;top:385px;}
-.flower4{left:500px;top:390px;}
-
-/* ===== 果實 ===== */
-
-.fruit{
-
-    width:90px;
-
-    height:90px;
-
-    border-radius:50%;
-
-    background:rgba(255,222,170,.75);
-
-    font-size:12px;
-}
-
-.fruit1{left:90px;top:510px;}
-.fruit2{left:580px;top:510px;}
-
-/* ===== 樹幹 ===== */
-
-.trunk{
-
-    width:150px;
-
-    height:100px;
-
-    background:rgba(220,220,220,.75);
-
-    border-radius:10px;
-
-    font-weight:bold;
-
-    left:300px;
-
-    top:560px;
-}
-
-/* ===== 樹根 ===== */
-
-.root{
-
-    width:75px;
-
-    height:55px;
-
-    border-radius:12px;
-
-    background:rgba(220,220,220,.65);
-
-    font-size:12px;
-}
-
-.root1{left:20px;bottom:100px;}
-.root2{left:150px;bottom:70px;}
-.root3{left:300px;bottom:30px;}
-
-.root4{left:390px;bottom:30px;}
-.root5{left:540px;bottom:70px;}
-.root6{left:660px;bottom:100px;}
-
-.quote{
-
-    text-align:center;
-
-    font-size:24px;
-
-    font-weight:bold;
-
-    margin-bottom:20px;
-
-    color:#1e3a8a;
-}
-
-@media(max-width:1200px){
-
-.poster{
-
-    width:100%;
-    height:auto;
-}
-
-}
-
+*{box-sizing:border-box} body{font-family:'Microsoft JhengHei',sans-serif;margin:0;background:#eef2f7;padding:16px}
+.panel{max-width:1400px;margin:auto;background:#fff;padding:16px;border-radius:12px}
+input,textarea{width:100%;padding:8px;margin:4px 0 10px;border:1px solid #ccc;border-radius:8px}
+button{background:#2563eb;color:#fff;border:0;padding:10px 16px;border-radius:8px;cursor:pointer}
+.poster-wrap{overflow:auto}
+.poster{width:1400px;height:900px;position:relative;background:#fff;border:2px solid #555;margin-top:20px}
+.left{position:absolute;left:0;top:0;width:50%;height:100%;padding:20px}
+.right{position:absolute;right:0;top:0;width:50%;height:100%}
+.letter{height:82%;border:2px dashed #999;padding:12px;white-space:pre-wrap}
+.tree-image{position:absolute;width:145%;left:-18%;top:-3%}
+.overlay{position:absolute;text-align:center;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;line-height:1.1;color:#222;text-shadow:0 0 4px #fff,0 0 8px #fff}
+.leaf1{left:14%;top:10%;width:12%}.leaf2{left:40%;top:2%;width:14%}.leaf3{left:70%;top:10%;width:12%}.leaf4{left:8%;top:38%;width:12%}.leaf5{left:38%;top:30%;width:12%}.leaf6{left:73%;top:38%;width:12%}
+.flower1{left:33%;top:21%;width:7%;height:7%}.flower2{left:58%;top:21%;width:7%;height:7%}.flower3{left:28%;top:43%;width:7%;height:7%}.flower4{left:61%;top:43%;width:7%;height:7%}
+.fruit1{left:16%;top:55%;width:10%;height:10%}.fruit2{left:80%;top:55%;width:10%;height:10%}
+.trunk{left:44%;top:60%;width:12%;height:10%}
+.root1{left:8%;top:86%;width:8%}.root2{left:24%;top:92%;width:8%}.root3{left:43%;top:96%;width:8%}.root4{left:56%;top:96%;width:8%}.root5{left:75%;top:92%;width:8%}.root6{left:90%;top:86%;width:8%}
 </style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="form-card">
-
+</head><body>
+<div class='panel'>
 <h1>🌳 我的十年人生樹</h1>
-
-<input id="quote" placeholder="Never Forget Your Original Intention">
-
-<input id="trunk" placeholder="現在的自己">
-
-<textarea id="roots" rows="6"
-placeholder="六個核心價值(每行一個)&#10;家庭&#10;誠信&#10;學習..."></textarea>
-
-<textarea id="leaves" rows="6"
-placeholder="六個方法(每行一個)"></textarea>
-
-<textarea id="flowers" rows="4"
-placeholder="四個成果(每行一個)"></textarea>
-
-<textarea id="fruits" rows="2"
-placeholder="兩個人生夢想(每行一個)"></textarea>
-
-<textarea id="letter"
-rows="10"
-placeholder="給十年後的自己"></textarea>
-
-<button onclick="generatePoster()">
-生成人生樹海報
-</button>
-
-<button onclick="downloadPoster()">
-下載 PNG
-</button>
-
+<input id='quote' placeholder='座右銘'>
+<input id='trunk' placeholder='現在的自己'>
+<textarea id='roots' rows='6' placeholder='六個樹根(每行一個)'></textarea>
+<textarea id='leaves' rows='6' placeholder='六個方法(每行一個)'></textarea>
+<textarea id='flowers' rows='4' placeholder='四個成果(每行一個)'></textarea>
+<textarea id='fruits' rows='2' placeholder='兩個夢想(每行一個)'></textarea>
+<textarea id='letter' rows='8' placeholder='給十年後的自己'></textarea>
+<button onclick='generatePoster()'>生成人生樹海報</button>
+<button onclick='downloadPoster()'>下載PNG</button>
+<div id='result' class='poster-wrap'></div>
 </div>
-
-<div id="result"></div>
-
-</div>
-
 <script>
-
-function getLines(id,count){
-
- const arr =
- document.getElementById(id)
- .value
- .split("\\n")
- .filter(v=>v.trim()!='');
-
- while(arr.length<count){
-   arr.push("");
- }
-
- return arr;
-}
-
-function generatePoster(){
-
- const roots   = getLines("roots",6);
- const leaves  = getLines("leaves",6);
- const flowers = getLines("flowers",4);
- const fruits  = getLines("fruits",2);
-
- const trunk =
- document.getElementById("trunk").value;
-
- const quote =
- document.getElementById("quote").value;
-
- const letter =
- document.getElementById("letter").value;
-
- document.getElementById("result").innerHTML = `
-
- <div class="poster" id="poster">
-
-     <div class="left-panel">
-
-         <div class="quote">${quote}</div>
-
-         <h2>💌 給十年後的自己</h2>
-
-         <div class="letter-box">
-         ${letter.replace(/\\n/g,"<br>")}
-         </div>
-
-     </div>
-
-     <div class="tree-area">
-
-         <img src="tree-template.png">
-
-         <div class="overlay leaf leaf1">${leaves[0]}</div>
-         <div class="overlay leaf leaf2">${leaves[1]}</div>
-         <div class="overlay leaf leaf3">${leaves[2]}</div>
-         <div class="overlay leaf leaf4">${leaves[3]}</div>
-         <div class="overlay leaf leaf5">${leaves[4]}</div>
-         <div class="overlay leaf leaf6">${leaves[5]}</div>
-
-         <div class="overlay flower flower1">${flowers[0]}</div>
-         <div class="overlay flower flower2">${flowers[1]}</div>
-         <div class="overlay flower flower3">${flowers[2]}</div>
-         <div class="overlay flower flower4">${flowers[3]}</div>
-
-         <div class="overlay fruit fruit1">${fruits[0]}</div>
-         <div class="overlay fruit fruit2">${fruits[1]}</div>
-
-         <div class="overlay trunk">
-             ${trunk}
-         </div>
-
-         <div class="overlay root root1">${roots[0]}</div>
-         <div class="overlay root root2">${roots[1]}</div>
-         <div class="overlay root root3">${roots[2]}</div>
-         <div class="overlay root root4">${roots[3]}</div>
-         <div class="overlay root root5">${roots[4]}</div>
-         <div class="overlay root root6">${roots[5]}</div>
-
-     </div>
-
- </div>
-
- `;
-}
-
-async function downloadPoster(){
-
- const poster =
- document.getElementById("poster");
-
- if(!poster){
-
-   alert("請先產生海報");
-
-   return;
- }
-
- const canvas =
- await html2canvas(
-    poster,
-    {
-      scale:2,
-      useCORS:true,
-      backgroundColor:"#ffffff"
-    }
- );
-
- const link =
- document.createElement("a");
-
- link.download =
- "LifeTree.png";
-
- link.href =
- canvas.toDataURL("image/png");
-
- link.click();
-}
-
-</script>
-
-</body>
-</html>
+function lines(id,n){let a=document.getElementById(id).value.split(/
++/).filter(v=>v.trim());while(a.length<n)a.push('');return a;}
+function generatePoster(){let roots=lines('roots',6),leaves=lines('leaves',6),flowers=lines('flowers',4),fruits=lines('fruits',2);
+let q=document.getElementById('quote').value,t=document.getElementById('trunk').value,l=document.getElementById('letter').value;
+document.getElementById('result').innerHTML=`<div id="poster" class="poster"><div class="left"><h2>${q}</h2><h3>💌 給十年後的自己</h3><div class="letter">${l.replace(/
+/g,'<br>')}</div></div><div class="right"><img class="tree-image" src="image.png"><div class="overlay leaf1">${leaves[0]}</div><div class="overlay leaf2">${leaves[1]}</div><div class="overlay leaf3">${leaves[2]}</div><div class="overlay leaf4">${leaves[3]}</div><div class="overlay leaf5">${leaves[4]}</div><div class="overlay leaf6">${leaves[5]}</div><div class="overlay flower1">${flowers[0]}</div><div class="overlay flower2">${flowers[1]}</div><div class="overlay flower3">${flowers[2]}</div><div class="overlay flower4">${flowers[3]}</div><div class="overlay fruit1">${fruits[0]}</div><div class="overlay fruit2">${fruits[1]}</div><div class="overlay trunk">${t}</div><div class="overlay root1">${roots[0]}</div><div class="overlay root2">${roots[1]}</div><div class="overlay root3">${roots[2]}</div><div class="overlay root4">${roots[3]}</div><div class="overlay root5">${roots[4]}</div><div class="overlay root6">${roots[5]}</div></div></div>`;}
+async function downloadPoster(){const p=document.getElementById('poster');if(!p){alert('請先產生海報');return;} const c=await html2canvas(p,{scale:3,backgroundColor:'#fff'}); const a=document.createElement('a'); a.href=c.toDataURL('image/png'); a.download='MyLifeTree.png'; a.click();}
+</script></body></html>
