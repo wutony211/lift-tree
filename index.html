@@ -1,49 +1,634 @@
-
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我的十年人生樹</title>
-<script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Life Tree · A Letter to My Future Self</title>
 <style>
-*{box-sizing:border-box} body{font-family:'Microsoft JhengHei',sans-serif;margin:0;background:#eef2f7;padding:16px}
-.panel{max-width:1400px;margin:auto;background:#fff;padding:16px;border-radius:12px}
-input,textarea{width:100%;padding:8px;margin:4px 0 10px;border:1px solid #ccc;border-radius:8px}
-button{background:#2563eb;color:#fff;border:0;padding:10px 16px;border-radius:8px;cursor:pointer}
-.poster-wrap{overflow:auto}
-.poster{width:1400px;height:900px;position:relative;background:#fff;border:2px solid #555;margin-top:20px}
-.left{position:absolute;left:0;top:0;width:50%;height:100%;padding:20px}
-.right{position:absolute;right:0;top:0;width:50%;height:100%}
-.letter{height:82%;border:2px dashed #999;padding:12px;white-space:pre-wrap}
-.tree-image{position:absolute;width:145%;left:-18%;top:-3%}
-.overlay{position:absolute;text-align:center;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;line-height:1.1;color:#222;text-shadow:0 0 4px #fff,0 0 8px #fff}
-.leaf1{left:14%;top:10%;width:12%}.leaf2{left:40%;top:2%;width:14%}.leaf3{left:70%;top:10%;width:12%}.leaf4{left:8%;top:38%;width:12%}.leaf5{left:38%;top:30%;width:12%}.leaf6{left:73%;top:38%;width:12%}
-.flower1{left:33%;top:21%;width:7%;height:7%}.flower2{left:58%;top:21%;width:7%;height:7%}.flower3{left:28%;top:43%;width:7%;height:7%}.flower4{left:61%;top:43%;width:7%;height:7%}
-.fruit1{left:16%;top:55%;width:10%;height:10%}.fruit2{left:80%;top:55%;width:10%;height:10%}
-.trunk{left:44%;top:60%;width:12%;height:10%}
-.root1{left:8%;top:86%;width:8%}.root2{left:24%;top:92%;width:8%}.root3{left:43%;top:96%;width:8%}.root4{left:56%;top:96%;width:8%}.root5{left:75%;top:92%;width:8%}.root6{left:90%;top:86%;width:8%}
+  :root{
+    --bg:#f6f3ec; --card:#ffffff; --ink:#2f2a24; --muted:#7a7066;
+    --accent:#2e7d32; --accent2:#c2185b; --line:#e3dccf;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,-apple-system,"Segoe UI",sans-serif;}
+  header{padding:22px 28px 6px}
+  header h1{margin:0;font-size:26px;letter-spacing:.3px}
+  header p{margin:6px 0 0;color:var(--muted);font-size:14px}
+  .wrap{display:grid;grid-template-columns:minmax(320px,420px) 1fr;gap:22px;padding:18px 28px 40px;align-items:start}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .field{margin-bottom:14px}
+  label{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-bottom:6px}
+  label .dot{width:12px;height:12px;border-radius:50%;flex:none;border:1.5px solid rgba(0,0,0,.35)}
+  label small{font-weight:400;color:var(--muted);margin-left:auto;font-size:12px}
+  input[type=text],textarea{width:100%;font:inherit;font-size:14px;padding:9px 11px;border:1px solid #d6cfc2;border-radius:9px;background:#fffdf9;color:var(--ink);resize:vertical}
+  textarea{min-height:64px;line-height:1.45}
+  textarea#message{min-height:150px}
+  input:focus,textarea:focus{outline:2px solid #a5d6a7;border-color:#81c784}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
+  .buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  button{font:inherit;font-size:14px;border-radius:9px;padding:10px 14px;border:1px solid #cfc6b6;background:#fff;color:var(--ink);cursor:pointer}
+  button:hover{background:#f7f2e8}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700;flex:1 1 100%;padding:12px}
+  button.primary:hover{background:#256b29}
+  .opt{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin:10px 0 0;font-weight:400}
+  .preview{position:sticky;top:14px}
+  .preview canvas{width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 6px 24px rgba(60,40,20,.15);background:#fff}
+  .preview .bar{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+  .preview .bar span{color:var(--muted);font-size:12px;margin-left:auto}
+  #printImg{display:none}
+  @media (max-width:900px){.wrap{grid-template-columns:1fr;padding:14px}.preview{position:static}}
+  @page{size:A4 landscape;margin:0}
+  @media print{
+    body{background:#fff}
+    header,.wrap{display:none!important}
+    #printImg{display:block;width:297mm;height:210mm;object-fit:contain}
+  }
 </style>
-</head><body>
-<div class='panel'>
-<h1>🌳 我的十年人生樹</h1>
-<input id='quote' placeholder='座右銘'>
-<input id='trunk' placeholder='現在的自己'>
-<textarea id='roots' rows='6' placeholder='六個樹根(每行一個)'></textarea>
-<textarea id='leaves' rows='6' placeholder='六個方法(每行一個)'></textarea>
-<textarea id='flowers' rows='4' placeholder='四個成果(每行一個)'></textarea>
-<textarea id='fruits' rows='2' placeholder='兩個夢想(每行一個)'></textarea>
-<textarea id='letter' rows='8' placeholder='給十年後的自己'></textarea>
-<button onclick='generatePoster()'>生成人生樹海報</button>
-<button onclick='downloadPoster()'>下載PNG</button>
-<div id='result' class='poster-wrap'></div>
+</head>
+<body>
+<header>
+  <h1>🌳 My Life Tree</h1>
+  <p>Write a message to yourself ten years from now, fill in each part of your tree, then click <b>Generate Life Tree</b> to create an A4 poster.</p>
+</header>
+
+<div class="wrap">
+  <form class="card" id="form" onsubmit="return false">
+    <div class="field">
+      <label for="name">Your name <small>optional</small></label>
+      <input type="text" id="name" maxlength="40" placeholder="e.g. Amy Chen">
+    </div>
+    <div class="field">
+      <label for="message">✉️ Message to your future self (10 years from now)</label>
+      <textarea id="message" maxlength="1200" placeholder="Dear future me..."></textarea>
+    </div>
+    <div class="field">
+      <label for="roots"><span class="dot" style="background:#ead7c0"></span>Roots = Values <small>up to 5</small></label>
+      <textarea id="roots" placeholder="One per line, e.g.&#10;Honesty&#10;Kindness"></textarea>
+    </div>
+    <div class="field">
+      <label for="trunk"><span class="dot" style="background:#c49a6c"></span>Trunk = Abilities <small>up to 4</small></label>
+      <textarea id="trunk" placeholder="One per line, e.g.&#10;Problem solving"></textarea>
+    </div>
+    <div class="field">
+      <label for="branches"><span class="dot" style="background:#fff0b8"></span>Branches = Goals <small>up to 4</small></label>
+      <textarea id="branches" placeholder="One per line"></textarea>
+    </div>
+    <div class="field">
+      <label for="leaves"><span class="dot" style="background:#cfe8c4"></span>Leaves = Actions <small>up to 8</small></label>
+      <textarea id="leaves" placeholder="One per line"></textarea>
+    </div>
+    <div class="field">
+      <label for="flowers"><span class="dot" style="background:#f8c8dc"></span>Flowers = Results <small>up to 4</small></label>
+      <textarea id="flowers" placeholder="One per line"></textarea>
+    </div>
+    <div class="field">
+      <label for="fruits"><span class="dot" style="background:#f4a6a0"></span>Fruits = Dream Achievement <small>up to 2</small></label>
+      <textarea id="fruits" placeholder="One per line"></textarea>
+    </div>
+    <div class="hint">Put each item on its own line. Extra lines beyond the limit are left out. Text shrinks automatically to fit.</div>
+
+    <label class="opt"><input type="checkbox" id="lineArt"> Coloring-page style (black outlines only)</label>
+
+    <div class="buttons">
+      <button type="button" class="primary" id="genBtn">🌱 Generate Life Tree</button>
+      <button type="button" id="exampleBtn">Load example</button>
+      <button type="button" id="clearBtn">Clear all</button>
+    </div>
+  </form>
+
+  <div class="preview">
+    <canvas id="poster" width="3508" height="2480" aria-label="Life tree poster preview"></canvas>
+    <div class="bar">
+      <button type="button" id="dlBtn">⬇️ Download PNG (A4, 300 dpi)</button>
+      <button type="button" id="printBtn">🖨️ Print</button>
+      <span>A4 landscape · 3508 × 2480 px</span>
+    </div>
+  </div>
 </div>
+
+<img id="printImg" alt="">
+
 <script>
-function lines(id,n){let a=document.getElementById(id).value.split(/
-+/).filter(v=>v.trim());while(a.length<n)a.push('');return a;}
-function generatePoster(){let roots=lines('roots',6),leaves=lines('leaves',6),flowers=lines('flowers',4),fruits=lines('fruits',2);
-let q=document.getElementById('quote').value,t=document.getElementById('trunk').value,l=document.getElementById('letter').value;
-document.getElementById('result').innerHTML=`<div id="poster" class="poster"><div class="left"><h2>${q}</h2><h3>💌 給十年後的自己</h3><div class="letter">${l.replace(/
-/g,'<br>')}</div></div><div class="right"><img class="tree-image" src="image.png"><div class="overlay leaf1">${leaves[0]}</div><div class="overlay leaf2">${leaves[1]}</div><div class="overlay leaf3">${leaves[2]}</div><div class="overlay leaf4">${leaves[3]}</div><div class="overlay leaf5">${leaves[4]}</div><div class="overlay leaf6">${leaves[5]}</div><div class="overlay flower1">${flowers[0]}</div><div class="overlay flower2">${flowers[1]}</div><div class="overlay flower3">${flowers[2]}</div><div class="overlay flower4">${flowers[3]}</div><div class="overlay fruit1">${fruits[0]}</div><div class="overlay fruit2">${fruits[1]}</div><div class="overlay trunk">${t}</div><div class="overlay root1">${roots[0]}</div><div class="overlay root2">${roots[1]}</div><div class="overlay root3">${roots[2]}</div><div class="overlay root4">${roots[3]}</div><div class="overlay root5">${roots[4]}</div><div class="overlay root6">${roots[5]}</div></div></div>`;}
-async function downloadPoster(){const p=document.getElementById('poster');if(!p){alert('請先產生海報');return;} const c=await html2canvas(p,{scale:3,backgroundColor:'#fff'}); const a=document.createElement('a'); a.href=c.toDataURL('image/png'); a.download='MyLifeTree.png'; a.click();}
-</script></body></html>
+(function(){
+  "use strict";
+
+  // ---------- constants ----------
+  const W = 1754, H = 1240, SCALE = 2;          // A4 landscape @150dpi, exported at 300dpi
+  const SANS  = '"Noto Sans TC","Microsoft JhengHei","PingFang TC","Heiti TC",system-ui,-apple-system,"Segoe UI",sans-serif';
+  const SERIF = 'Georgia,"Noto Serif TC","PMingLiU","Songti TC",serif';
+  const LIMITS = {roots:5, trunk:4, branches:4, leaves:8, flowers:4, fruits:2};
+  const FIELDS = ["name","message","roots","trunk","branches","leaves","flowers","fruits"];
+  const STORE_KEY = "lifeTree.v1";
+
+  const COLOR = {
+    paper:"#fffdf8", frame:"#8d6e63", ink:"#3b2f2a", text:"#2b2622", ghost:"#a39a90",
+    root:"#ead7c0", bark:"#c49a6c", barkDark:"#5d4037",
+    leaf:"#cfe8c4", leafDark:"#2e7d32",
+    petal:"#f8c8dc", petalDark:"#ad1457", petalCenter:"#fff8e1",
+    fruit:"#f4a6a0", fruitDark:"#c62828",
+    tag:"#fff0b8", tagDark:"#b8860b", ground:"#7cb342", paperLine:"#d9e6f2", margin:"#f2b8b8"
+  };
+  const LINEART = {
+    paper:"#ffffff", frame:"#222", ink:"#222", text:"#222", ghost:"#9a9a9a",
+    root:"#fff", bark:"#fff", barkDark:"#222",
+    leaf:"#fff", leafDark:"#222",
+    petal:"#fff", petalDark:"#222", petalCenter:"#fff",
+    fruit:"#fff", fruitDark:"#222",
+    tag:"#fff", tagDark:"#222", ground:"#222", paperLine:"#d0d0d0", margin:"#bbbbbb"
+  };
+
+  const EXAMPLE = {
+    name:"Amy Chen",
+    message:"Dear me in ten years,\n\nRight now I am 16 and sitting in my classroom, wondering who you have become. I hope you still laugh loudly, still love the smell of rain, and still call Mom every week.\n\nI hope you were brave enough to try things even when you were scared of failing. If you fell down, I hope you got back up and learned something.\n\nPlease remember the people who helped you grow. Be kind to yourself, and keep being curious about the world.\n\nI'm proud of you already.\n\nLove,\nYour younger self",
+    roots:"Honesty\nKindness\nResponsibility\nCuriosity\nFamily",
+    trunk:"Communication\nProblem solving\nTeamwork\nEnglish & coding",
+    branches:"Get into a good university\nBecome a software engineer\nTravel to 10 countries\nStay healthy",
+    leaves:"Read 20 books a year\nPractice coding every day\nExercise 3 times a week\nJoin the robotics club\nLearn a new language\nVolunteer every month\nSave money monthly\nSleep before 11 pm",
+    flowers:"Won a science fair prize\nPassed the English exam\nFirst internship offer\nBuilt my own app",
+    fruits:"Design technology that helps people\nA happy, healthy family"
+  };
+
+  // ---------- DOM ----------
+  const $ = id => document.getElementById(id);
+  const canvas = $("poster");
+  const ctx = canvas.getContext("2d");
+
+  function readInputs(){
+    const d = {};
+    FIELDS.forEach(f => d[f] = $(f).value);
+    return d;
+  }
+  function lines(text, max){
+    return String(text||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean).slice(0,max);
+  }
+  function save(){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(readInputs())); }catch(e){}
+  }
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORE_KEY);
+      if(!raw) return;
+      const d = JSON.parse(raw);
+      FIELDS.forEach(f => { if(typeof d[f]==="string") $(f).value = d[f]; });
+    }catch(e){}
+  }
+
+  // ---------- text helpers (supports English + CJK wrapping) ----------
+  const TOKEN_RE = /[⺀-鿿가-힯豈-﫿＀-￯]|[^\s⺀-鿿가-힯豈-﫿＀-￯]+|\s+/g;
+
+  let wrapBroke = false;
+  function wrap(text, maxW){
+    const out = [];
+    wrapBroke = false;
+    String(text).split("\n").forEach(par => {
+      const tokens = par.match(TOKEN_RE) || [""];
+      let line = "";
+      tokens.forEach(tok => {
+        if(/^\s+$/.test(tok)){ if(line) line += " "; return; }
+        const test = line + tok;
+        if(ctx.measureText(test).width <= maxW || !line.trim()){
+          if(ctx.measureText(test).width <= maxW){ line = test; return; }
+        }
+        if(line.trim()) { out.push(line.trimEnd()); line = ""; }
+        // token alone may be too long → break by characters
+        if(ctx.measureText(tok).width > maxW){
+          if(tok.length > 1) wrapBroke = true;
+          let chunk = "";
+          for(const ch of tok){
+            if(ctx.measureText(chunk+ch).width > maxW && chunk){ out.push(chunk); chunk = ch; }
+            else chunk += ch;
+          }
+          line = chunk;
+        } else line = tok;
+      });
+      out.push(line.trimEnd());
+    });
+    return out;
+  }
+
+  function fitText(text, maxW, maxH, maxF, minF, opt){
+    opt = opt || {};
+    const fam = opt.family || SANS, weight = opt.weight || "600", lh = opt.lh || 1.18;
+    let f = maxF, ls;
+    for(; f >= minF; f -= 0.5){
+      ctx.font = `${weight} ${f}px ${fam}`;
+      ls = wrap(text, maxW);
+      if(!wrapBroke && ls.length * f * lh <= maxH) return {f, ls, lh};
+    }
+    f = minF;
+    ctx.font = `${weight} ${f}px ${fam}`;
+    ls = wrap(text, maxW);
+    const maxLines = Math.max(1, Math.floor(maxH / (f*lh)));
+    if(ls.length > maxLines){
+      ls = ls.slice(0, maxLines);
+      let last = ls[maxLines-1];
+      while(last.length && ctx.measureText(last + "…").width > maxW) last = last.slice(0,-1);
+      ls[maxLines-1] = last + "…";
+    }
+    return {f, ls, lh};
+  }
+
+  function drawFit(text, cx, cy, maxW, maxH, opt){
+    opt = opt || {};
+    const r = fitText(text, maxW, maxH, opt.max || 20, opt.min || 9, opt);
+    ctx.save();
+    ctx.font = `${opt.weight||"600"} ${r.f}px ${opt.family||SANS}`;
+    ctx.fillStyle = opt.color;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const lineH = r.f * r.lh;
+    const top = cy - (r.ls.length - 1) * lineH / 2;
+    r.ls.forEach((l, i) => ctx.fillText(l, cx, top + i * lineH));
+    ctx.restore();
+  }
+
+  // ---------- shape helpers ----------
+  function strokeFill(fill, stroke, lw){
+    ctx.fillStyle = fill; ctx.fill();
+    ctx.lineWidth = lw; ctx.strokeStyle = stroke; ctx.stroke();
+  }
+  function roundRect(x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.arcTo(x+w, y, x+w, y+h, r);
+    ctx.arcTo(x+w, y+h, x, y+h, r);
+    ctx.arcTo(x, y+h, x, y, r);
+    ctx.arcTo(x, y, x+w, y, r);
+    ctx.closePath();
+  }
+  // a "limb": double stroke gives an outlined, filled branch/root
+  function limb(pts, width, C){
+    const draw = () => {
+      ctx.beginPath();
+      ctx.moveTo(pts[0], pts[1]);
+      ctx.bezierCurveTo(pts[2], pts[3], pts[4], pts[5], pts[6], pts[7]);
+    };
+    ctx.save();
+    ctx.lineCap = "round"; ctx.lineJoin = "round";
+    draw(); ctx.lineWidth = width + 5; ctx.strokeStyle = C.barkDark; ctx.stroke();
+    draw(); ctx.lineWidth = width;     ctx.strokeStyle = C.bark;     ctx.stroke();
+    ctx.restore();
+  }
+  function bez(p, t){
+    const u = 1-t;
+    return [
+      u*u*u*p[0] + 3*u*u*t*p[2] + 3*u*t*t*p[4] + t*t*t*p[6],
+      u*u*u*p[1] + 3*u*u*t*p[3] + 3*u*t*t*p[5] + t*t*t*p[7]
+    ];
+  }
+
+  function leaf(x, y, len, wid, rotDeg, C){
+    const L = len/2, Wd = wid/2;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rotDeg * Math.PI/180);
+    ctx.beginPath();
+    ctx.moveTo(-L, 0);
+    ctx.bezierCurveTo(-L*0.45, -Wd*1.32, L*0.45, -Wd*1.05, L, 0);
+    ctx.bezierCurveTo(L*0.45, Wd*1.05, -L*0.45, Wd*1.32, -L, 0);
+    ctx.closePath();
+    strokeFill(C.leaf, C.leafDark, 2.6);
+    ctx.restore();
+  }
+
+  function flower(x, y, r, C){
+    ctx.save();
+    for(let i=0;i<5;i++){
+      const a = -Math.PI/2 + i * 2*Math.PI/5;
+      ctx.beginPath();
+      ctx.arc(x + Math.cos(a)*r*0.58, y + Math.sin(a)*r*0.58, r*0.47, 0, Math.PI*2);
+      strokeFill(C.petal, C.petalDark, 2.4);
+    }
+    ctx.beginPath();
+    ctx.arc(x, y, r*0.66, 0, Math.PI*2);
+    strokeFill(C.petalCenter, C.petalDark, 2.4);
+    ctx.restore();
+  }
+
+  function apple(x, y, r, C){
+    ctx.save();
+    // stem + little leaf
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(x, y - r*0.82);
+    ctx.quadraticCurveTo(x - 4, y - r*1.12, x - 12, y - r*1.3);
+    ctx.lineWidth = 4; ctx.strokeStyle = C.barkDark; ctx.stroke();
+    leaf(x + 22, y - r*1.12, 44, 22, -25, C);
+    // body
+    ctx.beginPath();
+    ctx.moveTo(x, y - r*0.78);
+    ctx.bezierCurveTo(x + r*0.35, y - r*1.12, x + r*1.12, y - r*0.95, x + r*1.02, y - r*0.05);
+    ctx.bezierCurveTo(x + r*0.98, y + r*0.72, x + r*0.48, y + r*1.02, x + r*0.2, y + r*0.95);
+    ctx.quadraticCurveTo(x, y + r*0.88, x - r*0.2, y + r*0.95);
+    ctx.bezierCurveTo(x - r*0.48, y + r*1.02, x - r*0.98, y + r*0.72, x - r*1.02, y - r*0.05);
+    ctx.bezierCurveTo(x - r*1.12, y - r*0.95, x - r*0.35, y - r*1.12, x, y - r*0.78);
+    ctx.closePath();
+    strokeFill(C.fruit, C.fruitDark, 2.8);
+    ctx.restore();
+  }
+
+  function rootLobe(x, top, w, h, C){
+    ctx.beginPath();
+    ctx.moveTo(x, top);
+    ctx.bezierCurveTo(x + w*0.12, top + h*0.22, x + w*0.5, top + h*0.38, x + w*0.5, top + h*0.66);
+    ctx.bezierCurveTo(x + w*0.5, top + h*1.02, x - w*0.5, top + h*1.02, x - w*0.5, top + h*0.66);
+    ctx.bezierCurveTo(x - w*0.5, top + h*0.38, x - w*0.12, top + h*0.22, x, top);
+    ctx.closePath();
+    strokeFill(C.root, C.barkDark, 2.6);
+  }
+
+  function grass(x, y, C){
+    ctx.save();
+    ctx.strokeStyle = C.ground; ctx.lineWidth = 2.2; ctx.lineCap = "round";
+    [[-10,-16],[-4,-24],[3,-20],[10,-14]].forEach(([dx,dy]) => {
+      ctx.beginPath(); ctx.moveTo(x + dx*0.4, y); ctx.quadraticCurveTo(x + dx*0.6, y + dy*0.5, x + dx, y + dy); ctx.stroke();
+    });
+    ctx.restore();
+  }
+
+  // ---------- poster ----------
+  function render(d){
+    const C = $("lineArt").checked ? LINEART : COLOR;
+    const today = new Date();
+    const future = today.getFullYear() + 10;
+    const dateStr = today.toLocaleDateString("en-US", {year:"numeric", month:"long", day:"numeric"});
+
+    ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = C.paper; ctx.fillRect(0, 0, W, H);
+
+    // frame
+    ctx.lineWidth = 3; ctx.strokeStyle = C.frame;
+    ctx.strokeRect(28, 28, W-56, H-56);
+    ctx.lineWidth = 1; ctx.strokeRect(36, 36, W-72, H-72);
+
+    drawLetter(d, C, future, dateStr);
+
+    // divider
+    ctx.save();
+    ctx.setLineDash([6, 8]); ctx.strokeStyle = C.ghost; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(840, 80); ctx.lineTo(840, H-80); ctx.stroke();
+    ctx.restore();
+
+    drawTree(d, C);
+  }
+
+  function drawLetter(d, C, future, dateStr){
+    const x0 = 80, x1 = 800;
+    ctx.fillStyle = C.ink; ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    ctx.font = `700 40px ${SERIF}`;
+    ctx.fillText("A Letter to My Future Self", x0, 112);
+    ctx.font = `400 19px ${SANS}`;
+    ctx.fillStyle = C.ghost === "#9a9a9a" ? "#555" : "#8d6e63";
+    ctx.fillText(`Ten years from now · To be opened in ${future}`, x0, 146);
+
+    ctx.fillStyle = C.ink;
+    ctx.font = `600 18px ${SANS}`;
+    const name = d.name.trim();
+    ctx.fillText(`To: Me in ${future}`, x0, 190);
+    ctx.textAlign = "right";
+    ctx.fillText(`From: ${name || "_______________"}`, x1, 190);
+    ctx.textAlign = "left";
+
+    // lined paper
+    const py = 214, ph = 900, pad = 22;
+    roundRect(x0, py, x1 - x0, ph, 10);
+    ctx.fillStyle = C === LINEART ? "#fff" : "#fffefb"; ctx.fill();
+    ctx.lineWidth = 1.5; ctx.strokeStyle = C.frame; ctx.stroke();
+
+    const msg = d.message.trim();
+    const tx = x0 + pad + 26, tw = x1 - x0 - pad*2 - 26;
+    const r = fitText(msg || " ", tw, ph - 2*pad - 10, 25, 11, {weight:"400", lh:1.6});
+    const lineH = r.f * r.lh;
+
+    // ruled lines matching text size
+    ctx.save();
+    ctx.beginPath(); roundRect(x0, py, x1 - x0, ph, 10); ctx.clip();
+    ctx.strokeStyle = C.paperLine; ctx.lineWidth = 1;
+    for(let y = py + pad + lineH; y < py + ph - 6; y += lineH){
+      ctx.beginPath(); ctx.moveTo(x0 + 8, y + 0.5); ctx.lineTo(x1 - 8, y + 0.5); ctx.stroke();
+    }
+    ctx.strokeStyle = C.margin; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(x0 + pad + 12, py); ctx.lineTo(x0 + pad + 12, py + ph); ctx.stroke();
+    ctx.restore();
+
+    if(msg){
+      ctx.font = `400 ${r.f}px ${SANS}`;
+      ctx.fillStyle = C.text; ctx.textBaseline = "alphabetic"; ctx.textAlign = "left";
+      r.ls.forEach((l, i) => ctx.fillText(l, tx, py + pad + lineH * (i+1) - r.f*0.28));
+    } else {
+      ctx.font = `italic 400 22px ${SERIF}`;
+      ctx.fillStyle = C.ghost; ctx.textAlign = "center";
+      ctx.fillText("Write your message to your future self here…", (x0+x1)/2, py + ph/2);
+    }
+
+    // signature
+    ctx.textAlign = "right"; ctx.fillStyle = C.ink;
+    ctx.font = `italic 400 20px ${SERIF}`;
+    ctx.fillText(`— ${name || "Me"}, ${dateStr}`, x1, 1160);
+    ctx.textAlign = "left";
+  }
+
+  function drawTree(d, C){
+    const cx = 1290, groundY = 852;
+    const items = {};
+    Object.keys(LIMITS).forEach(k => items[k] = lines(d[k], LIMITS[k]));
+
+    // title
+    ctx.fillStyle = C.ink; ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    ctx.font = `700 34px ${SERIF}`;
+    ctx.fillText("My Life Tree", 872, 92);
+
+    // ---- roots (values) ----
+    const roots = items.roots.length ? items.roots : ["Value","Value","Value"];
+    const ghostRoots = !items.roots.length;
+    const n = roots.length, span = 740;
+    const rw = Math.min(170, span / n - 14), rh = 220, rTop = 930;
+    const rootXs = roots.map((_, i) => cx - span/2 + (i + 0.5) * span / n);
+    rootXs.forEach((x, i) => {
+      const sx = cx + (x - cx) * 0.18;
+      limb([sx, groundY - 10, sx + (x - sx)*0.2, groundY + 50, x, rTop - 60, x, rTop + 6], 11, C);
+    });
+    rootXs.forEach((x, i) => {
+      rootLobe(x, rTop, rw, rh, C);
+      drawFit(roots[i], x, rTop + rh*0.64, rw*0.78, rh*0.48,
+        {max:20, min:9, color: ghostRoots ? C.ghost : C.text});
+    });
+
+    // ground
+    ctx.save();
+    ctx.strokeStyle = C.ground; ctx.lineWidth = 3; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(880, groundY); ctx.bezierCurveTo(1100, groundY - 8, 1480, groundY + 8, 1700, groundY - 2); ctx.stroke();
+    ctx.restore();
+    [935, 1095, 1495, 1650].forEach(x => grass(x, groundY, C));
+
+    // ---- branches (structure) ----
+    const BR = [
+      [1250, 600, 1170, 560, 1050, 565, 955, 515],   // left low
+      [1330, 600, 1410, 560, 1530, 565, 1625, 515],  // right low
+      [1262, 548, 1230, 450, 1150, 380, 1060, 300],  // left high
+      [1318, 548, 1350, 450, 1430, 380, 1520, 300],  // right high
+    ];
+    BR.forEach(p => limb(p, 22, C));
+    limb([1290, 560, 1290, 470, 1290, 360, 1290, 300], 22, C); // center leader
+
+    // ---- trunk (abilities) ----
+    const tTop = 520, hwT = 66, hwB = 96;
+    ctx.beginPath();
+    ctx.moveTo(cx - hwT, tTop);
+    ctx.bezierCurveTo(cx - hwT - 4, tTop + 140, cx - hwB + 4, groundY - 140, cx - hwB, groundY - 30);
+    ctx.bezierCurveTo(cx - hwB - 6, groundY - 5, cx - hwB - 40, groundY + 8, cx - hwB - 62, groundY + 16);
+    ctx.lineTo(cx + hwB + 62, groundY + 16);
+    ctx.bezierCurveTo(cx + hwB + 40, groundY + 8, cx + hwB + 6, groundY - 5, cx + hwB, groundY - 30);
+    ctx.bezierCurveTo(cx + hwB - 4, groundY - 140, cx + hwT + 4, tTop + 140, cx + hwT, tTop);
+    ctx.bezierCurveTo(cx + 30, tTop - 14, cx - 30, tTop - 14, cx - hwT, tTop);
+    ctx.closePath();
+    strokeFill(C.bark, C.barkDark, 3);
+    // bark texture
+    ctx.save();
+    ctx.strokeStyle = C.barkDark; ctx.globalAlpha = 0.35; ctx.lineWidth = 1.6;
+    [[-hwT+14, tTop+30, -hwB+20, groundY-50], [hwT-14, tTop+30, hwB-20, groundY-50]].forEach(([a,b,c,e]) => {
+      ctx.beginPath(); ctx.moveTo(cx+a, b); ctx.quadraticCurveTo(cx + (a+c)/2 + (a<0?-6:6), (b+e)/2, cx+c, e); ctx.stroke();
+    });
+    ctx.restore();
+
+    const trunk = items.trunk.length ? items.trunk : ["Ability","Ability"];
+    const ghostTrunk = !items.trunk.length;
+    // abilities stacked in little bark plaques
+    const tAreaTop = tTop + 28, tAreaBot = groundY - 34, slotH = (tAreaBot - tAreaTop) / trunk.length;
+    trunk.forEach((t, i) => {
+      const yc = tAreaTop + slotH * (i + 0.5);
+      const halfW = hwT + (hwB - hwT) * ((yc - tTop) / (groundY - tTop)) - 16;
+      const bh = Math.min(slotH - 10, 76);
+      roundRect(cx - halfW, yc - bh/2, halfW*2, bh, 10);
+      ctx.fillStyle = C === LINEART ? "#fff" : "rgba(255,248,235,.85)"; ctx.fill();
+      ctx.lineWidth = 1.4; ctx.strokeStyle = C.barkDark; ctx.stroke();
+      drawFit(t, cx, yc, halfW*2 - 12, bh - 8, {max:18, min:9, color: ghostTrunk ? C.ghost : C.text});
+    });
+
+    // ---- leaves (actions) ----
+    const LEAF_SLOTS = [   // x, y, rotation; listed in fill order
+      [1195, 132, -8], [1385, 132, 8], [1035, 218, -22], [1545, 218, 22],
+      [ 955, 375, -12], [1625, 375, 12], [1130, 690, -10], [1450, 690, 10]
+    ];
+    const leaves = items.leaves.length ? items.leaves : Array(6).fill("Action");
+    const ghostLeaves = !items.leaves.length;
+    leaves.forEach((t, i) => {
+      const [x, y, rot] = LEAF_SLOTS[i];
+      leaf(x, y, 182, 112, rot, C);
+      drawFit(t, x, y, 118, 70, {max:17, min:8.5, color: ghostLeaves ? C.ghost : C.text});
+    });
+
+    // ---- flowers (results) ----
+    const FLOWER_SLOTS = [[1140, 290], [1440, 290], [1290, 208], [1290, 348]];
+    const flowers = items.flowers.length ? items.flowers : Array(4).fill("Result");
+    const ghostFlowers = !items.flowers.length;
+    flowers.forEach((t, i) => {
+      const [x, y] = FLOWER_SLOTS[i];
+      flower(x, y, 66, C);
+      drawFit(t, x, y, 76, 66, {max:15, min:8, color: ghostFlowers ? C.ghost : C.text});
+    });
+
+    // ---- fruits (dream achievement) ----
+    const FRUIT_SLOTS = [[945, 630], [1635, 630]];
+    const fruits = items.fruits.length ? items.fruits : ["Dream","Dream"];
+    const ghostFruits = !items.fruits.length;
+    fruits.forEach((t, i) => {
+      const [x, y] = FRUIT_SLOTS[i];
+      apple(x, y, 74, C);
+      drawFit(t, x, y + 6, 112, 100, {max:18, min:9, color: ghostFruits ? C.ghost : C.text});
+    });
+
+    // ---- goal tags on branches (drawn last so they stay readable) ----
+    const goals = items.branches.length ? items.branches : Array(4).fill("Goal");
+    const ghostGoals = !items.branches.length;
+    const TAG_ORDER = [2, 3, 0, 1];
+    const TAG_T = [0.5, 0.5, 0.45, 0.45];
+    goals.forEach((t, i) => {
+      const b = TAG_ORDER[i];
+      const [x, y] = bez(BR[b], TAG_T[b]);
+      const tw = 156, th = 54;
+      const tx = Math.max(872, Math.min(1708 - tw, x - tw/2));
+      roundRect(tx, y - th/2, tw, th, 12);
+      ctx.fillStyle = C.tag; ctx.fill();
+      ctx.lineWidth = 2.2; ctx.strokeStyle = C.tagDark; ctx.stroke();
+      drawFit(t, tx + tw/2, y, tw - 16, th - 8, {max:16, min:8.5, color: ghostGoals ? C.ghost : C.text});
+    });
+
+    // ---- legend ----
+    const legend = [
+      ["Roots", "Values", C.root], ["Trunk", "Abilities", C.bark], ["Branches", "Goals", C.tag],
+      ["Leaves", "Actions", C.leaf], ["Flowers", "Results", C.petal], ["Fruits", "Dream", C.fruit]
+    ];
+    ctx.font = `500 13.5px ${SANS}`;
+    ctx.textBaseline = "middle"; ctx.textAlign = "left";
+    const widths = legend.map(([a,b]) => 22 + ctx.measureText(`${a} = ${b}`).width);
+    const gap = 16, total = widths.reduce((s,w)=>s+w,0) + gap*(legend.length-1);
+    let lx = cx - total/2; const ly = 1184;
+    legend.forEach(([a, b, col], i) => {
+      ctx.beginPath(); ctx.arc(lx + 7, ly, 7, 0, Math.PI*2);
+      ctx.fillStyle = col; ctx.fill(); ctx.lineWidth = 1.2; ctx.strokeStyle = C.barkDark; ctx.stroke();
+      ctx.fillStyle = C.ink; ctx.fillText(`${a} = ${b}`, lx + 19, ly + 0.5);
+      lx += widths[i] + gap;
+    });
+  }
+
+  // ---------- actions ----------
+  function generate(){
+    save();
+    const go = () => render(readInputs());
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go();
+  }
+  function fileName(){
+    const n = $("name").value.trim().replace(/[\\/:*?"<>|]+/g, "").replace(/\s+/g, "_");
+    return `Life_Tree${n ? "_" + n : ""}.png`;
+  }
+
+  $("genBtn").addEventListener("click", () => {
+    generate();
+    if(window.innerWidth <= 900) canvas.scrollIntoView({behavior:"smooth"});
+  });
+  $("exampleBtn").addEventListener("click", () => {
+    FIELDS.forEach(f => $(f).value = EXAMPLE[f]);
+    generate();
+  });
+  $("clearBtn").addEventListener("click", () => {
+    if(!confirmClear()) return;
+    FIELDS.forEach(f => $(f).value = "");
+    generate();
+  });
+  function confirmClear(){
+    const anything = FIELDS.some(f => $(f).value.trim());
+    return !anything || window.confirm("Clear everything you've typed?");
+  }
+  $("lineArt").addEventListener("change", generate);
+  FIELDS.forEach(f => $(f).addEventListener("input", save));
+
+  $("dlBtn").addEventListener("click", () => {
+    render(readInputs());
+    const a = document.createElement("a");
+    a.download = fileName();
+    if(canvas.toBlob){
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        a.href = url; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+      }, "image/png");
+    } else {
+      a.href = canvas.toDataURL("image/png"); document.body.appendChild(a); a.click(); a.remove();
+    }
+  });
+  $("printBtn").addEventListener("click", () => {
+    render(readInputs());
+    const img = $("printImg");
+    img.onload = () => { window.print(); };
+    img.src = canvas.toDataURL("image/png");
+  });
+
+  load();
+  generate();
+})();
+</script>
+</body>
+</html>
