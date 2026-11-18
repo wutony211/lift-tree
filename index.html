@@ -2,191 +2,315 @@
 <html lang="zh-Hant">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>我的十年人生樹</title>
 
+<script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <style>
+
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
-    background:#f5f5f5;
+    padding:20px;
     font-family:"Microsoft JhengHei",sans-serif;
+    background:#f5f7fa;
 }
 
 .container{
     max-width:1600px;
     margin:auto;
-    padding:20px;
 }
 
-.form{
+.form-card{
+
     background:white;
+
     padding:20px;
+
     border-radius:12px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
 }
 
-textarea,input{
+textarea,
+input{
+
     width:100%;
-    padding:8px;
-    margin:5px 0;
-    box-sizing:border-box;
-}
 
-button{
-    padding:10px 20px;
-    background:#2563eb;
-    color:white;
-    border:none;
+    padding:10px;
+
+    margin-top:5px;
+    margin-bottom:10px;
+
+    border:1px solid #ccc;
+
     border-radius:8px;
 }
 
-#poster{
-    margin-top:20px;
-    position:relative;
+button{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    margin-right:10px;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.poster{
+
     width:1500px;
+
     height:1000px;
+
     background:white;
+
+    position:relative;
+
     border:2px solid #333;
+
+    margin-top:20px;
+
+    overflow:hidden;
 }
 
 .left-panel{
+
     position:absolute;
+
     left:20px;
+
     top:20px;
+
     width:700px;
-    height:920px;
+
+    height:940px;
 }
 
-.future-letter{
-    border:2px dashed #999;
-    height:850px;
+.letter-box{
+
+    border:2px dashed #888;
+
     padding:15px;
+
+    height:850px;
+
+    overflow:hidden;
+
     white-space:pre-wrap;
+
+    line-height:1.8;
 }
 
-.tree{
+.tree-area{
+
     position:absolute;
+
     right:0;
+
     top:0;
-    width:750px;
+
+    width:760px;
+
+    height:1000px;
 }
 
-.tree img{
+.tree-area img{
+
     width:100%;
+
+    display:block;
 }
 
-/* 果實 */
+.overlay{
 
-.fruit1{
     position:absolute;
-    top:420px;
-    left:40px;
-    width:90px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
     text-align:center;
+
+    font-size:13px;
+
+    line-height:1.2;
+
+    padding:4px;
+
+    word-break:break-word;
 }
 
-.fruit2{
-    position:absolute;
-    top:420px;
-    right:30px;
+/* ===== 葉片 ===== */
+
+.leaf{
+
+    width:100px;
+
+    height:60px;
+
+    background:rgba(190,255,190,.45);
+
+    border-radius:12px;
+}
+
+.leaf1{left:90px;top:90px;}
+.leaf2{left:300px;top:20px;}
+.leaf3{left:530px;top:90px;}
+
+.leaf4{left:45px;top:280px;}
+.leaf5{left:270px;top:250px;}
+.leaf6{left:560px;top:280px;}
+
+/* ===== 花朵 ===== */
+
+.flower{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    background:rgba(255,220,230,.65);
+
+    font-size:12px;
+}
+
+.flower1{left:250px;top:205px;}
+.flower2{left:475px;top:205px;}
+
+.flower3{left:190px;top:385px;}
+.flower4{left:500px;top:390px;}
+
+/* ===== 果實 ===== */
+
+.fruit{
+
     width:90px;
-    text-align:center;
+
+    height:90px;
+
+    border-radius:50%;
+
+    background:rgba(255,222,170,.75);
+
+    font-size:12px;
 }
 
-/* 花朵 */
+.fruit1{left:90px;top:510px;}
+.fruit2{left:580px;top:510px;}
 
-.flower1{
-    position:absolute;
-    top:150px;
-    left:220px;
-    width:90px;
-}
-
-.flower2{
-    position:absolute;
-    top:160px;
-    right:190px;
-    width:90px;
-}
-
-.flower3{
-    position:absolute;
-    top:330px;
-    left:150px;
-    width:90px;
-}
-
-.flower4{
-    position:absolute;
-    top:330px;
-    right:150px;
-    width:90px;
-}
-
-/* 葉片 */
-
-.leaf1{position:absolute;top:10px;left:200px;width:120px;}
-.leaf2{position:absolute;top:15px;left:420px;width:120px;}
-.leaf3{position:absolute;top:120px;left:30px;width:120px;}
-.leaf4{position:absolute;top:120px;right:10px;width:120px;}
-.leaf5{position:absolute;top:250px;left:0px;width:120px;}
-.leaf6{position:absolute;top:250px;right:0px;width:120px;}
-
-/* 樹幹 */
+/* ===== 樹幹 ===== */
 
 .trunk{
-    position:absolute;
-    top:520px;
-    left:320px;
-    width:120px;
-    text-align:center;
+
+    width:150px;
+
+    height:100px;
+
+    background:rgba(220,220,220,.75);
+
+    border-radius:10px;
+
     font-weight:bold;
+
+    left:300px;
+
+    top:560px;
 }
 
-/* 根部 */
+/* ===== 樹根 ===== */
 
-.root1{position:absolute;bottom:120px;left:30px;width:80px;}
-.root2{position:absolute;bottom:80px;left:180px;width:80px;}
-.root3{position:absolute;bottom:50px;left:320px;width:80px;}
-.root4{position:absolute;bottom:50px;right:320px;width:80px;}
-.root5{position:absolute;bottom:80px;right:180px;width:80px;}
-.root6{position:absolute;bottom:120px;right:30px;width:80px;}
+.root{
 
-.label{
-    font-size:14px;
+    width:75px;
+
+    height:55px;
+
+    border-radius:12px;
+
+    background:rgba(220,220,220,.65);
+
+    font-size:12px;
+}
+
+.root1{left:20px;bottom:100px;}
+.root2{left:150px;bottom:70px;}
+.root3{left:300px;bottom:30px;}
+
+.root4{left:390px;bottom:30px;}
+.root5{left:540px;bottom:70px;}
+.root6{left:660px;bottom:100px;}
+
+.quote{
+
     text-align:center;
-    line-height:1.2;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    margin-bottom:20px;
+
+    color:#1e3a8a;
+}
+
+@media(max-width:1200px){
+
+.poster{
+
+    width:100%;
+    height:auto;
+}
+
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="form">
+<div class="form-card">
 
-<h2>🌳 我的十年人生樹</h2>
+<h1>🌳 我的十年人生樹</h1>
 
-<input id="trunk"
-placeholder="現在的自己">
+<input id="quote" placeholder="Never Forget Your Original Intention">
 
-<textarea id="roots"
-placeholder="六個樹根(每行一個)"></textarea>
+<input id="trunk" placeholder="現在的自己">
 
-<textarea id="leaves"
-placeholder="六個葉片(每行一個)"></textarea>
+<textarea id="roots" rows="6"
+placeholder="六個核心價值(每行一個)&#10;家庭&#10;誠信&#10;學習..."></textarea>
 
-<textarea id="flowers"
-placeholder="四個花朵(每行一個)"></textarea>
+<textarea id="leaves" rows="6"
+placeholder="六個方法(每行一個)"></textarea>
 
-<textarea id="fruits"
-placeholder="兩個果實(每行一個)"></textarea>
+<textarea id="flowers" rows="4"
+placeholder="四個成果(每行一個)"></textarea>
+
+<textarea id="fruits" rows="2"
+placeholder="兩個人生夢想(每行一個)"></textarea>
 
 <textarea id="letter"
 rows="10"
@@ -194,6 +318,10 @@ placeholder="給十年後的自己"></textarea>
 
 <button onclick="generatePoster()">
 生成人生樹海報
+</button>
+
+<button onclick="downloadPoster()">
+下載 PNG
 </button>
 
 </div>
@@ -204,78 +332,122 @@ placeholder="給十年後的自己"></textarea>
 
 <script>
 
+function getLines(id,count){
+
+ const arr =
+ document.getElementById(id)
+ .value
+ .split("\\n")
+ .filter(v=>v.trim()!='');
+
+ while(arr.length<count){
+   arr.push("");
+ }
+
+ return arr;
+}
+
 function generatePoster(){
 
-const roots=
-document.getElementById("roots")
-.value.split("\\n");
+ const roots   = getLines("roots",6);
+ const leaves  = getLines("leaves",6);
+ const flowers = getLines("flowers",4);
+ const fruits  = getLines("fruits",2);
 
-const leaves=
-document.getElementById("leaves")
-.value.split("\\n");
+ const trunk =
+ document.getElementById("trunk").value;
 
-const flowers=
-document.getElementById("flowers")
-.value.split("\\n");
+ const quote =
+ document.getElementById("quote").value;
 
-const fruits=
-document.getElementById("fruits")
-.value.split("\\n");
+ const letter =
+ document.getElementById("letter").value;
 
-const trunk=
-document.getElementById("trunk").value;
+ document.getElementById("result").innerHTML = `
 
-const letter=
-document.getElementById("letter").value;
+ <div class="poster" id="poster">
 
-document.getElementById("result").innerHTML=`
+     <div class="left-panel">
 
-<div id="poster">
+         <div class="quote">${quote}</div>
 
-<div class="left-panel">
+         <h2>💌 給十年後的自己</h2>
 
-<h2>💌 給十年後的自己</h2>
+         <div class="letter-box">
+         ${letter.replace(/\\n/g,"<br>")}
+         </div>
 
-<div class="future-letter">
-${letter.replace(/\\n/g,"<br>")}
-</div>
+     </div>
 
-</div>
+     <div class="tree-area">
 
-<div class="tree">
+         <img src="tree-template.png">
 
-<img src="tree-template.png">
+         <div class="overlay leaf leaf1">${leaves[0]}</div>
+         <div class="overlay leaf leaf2">${leaves[1]}</div>
+         <div class="overlay leaf leaf3">${leaves[2]}</div>
+         <div class="overlay leaf leaf4">${leaves[3]}</div>
+         <div class="overlay leaf leaf5">${leaves[4]}</div>
+         <div class="overlay leaf leaf6">${leaves[5]}</div>
 
-<div class="fruit1 label">${fruits[0]||""}</div>
-<div class="fruit2 label">${fruits[1]||""}</div>
+         <div class="overlay flower flower1">${flowers[0]}</div>
+         <div class="overlay flower flower2">${flowers[1]}</div>
+         <div class="overlay flower flower3">${flowers[2]}</div>
+         <div class="overlay flower flower4">${flowers[3]}</div>
 
-<div class="flower1 label">${flowers[0]||""}</div>
-<div class="flower2 label">${flowers[1]||""}</div>
-<div class="flower3 label">${flowers[2]||""}</div>
-<div class="flower4 label">${flowers[3]||""}</div>
+         <div class="overlay fruit fruit1">${fruits[0]}</div>
+         <div class="overlay fruit fruit2">${fruits[1]}</div>
 
-<div class="leaf1 label">${leaves[0]||""}</div>
-<div class="leaf2 label">${leaves[1]||""}</div>
-<div class="leaf3 label">${leaves[2]||""}</div>
-<div class="leaf4 label">${leaves[3]||""}</div>
-<div class="leaf5 label">${leaves[4]||""}</div>
-<div class="leaf6 label">${leaves[5]||""}</div>
+         <div class="overlay trunk">
+             ${trunk}
+         </div>
 
-<div class="trunk">${trunk}</div>
+         <div class="overlay root root1">${roots[0]}</div>
+         <div class="overlay root root2">${roots[1]}</div>
+         <div class="overlay root root3">${roots[2]}</div>
+         <div class="overlay root root4">${roots[3]}</div>
+         <div class="overlay root root5">${roots[4]}</div>
+         <div class="overlay root root6">${roots[5]}</div>
 
-<div class="root1 label">${roots[0]||""}</div>
-<div class="root2 label">${roots[1]||""}</div>
-<div class="root3 label">${roots[2]||""}</div>
-<div class="root4 label">${roots[3]||""}</div>
-<div class="root5 label">${roots[4]||""}</div>
-<div class="root6 label">${roots[5]||""}</div>
+     </div>
 
-</div>
+ </div>
 
-</div>
+ `;
+}
 
-`;
+async function downloadPoster(){
 
+ const poster =
+ document.getElementById("poster");
+
+ if(!poster){
+
+   alert("請先產生海報");
+
+   return;
+ }
+
+ const canvas =
+ await html2canvas(
+    poster,
+    {
+      scale:2,
+      useCORS:true,
+      backgroundColor:"#ffffff"
+    }
+ );
+
+ const link =
+ document.createElement("a");
+
+ link.download =
+ "LifeTree.png";
+
+ link.href =
+ canvas.toDataURL("image/png");
+
+ link.click();
 }
 
 </script>
