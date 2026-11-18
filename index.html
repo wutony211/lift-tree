@@ -4,144 +4,161 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>我的十年人生樹</title>
-
-<script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
 
 body{
     margin:0;
-    padding:20px;
+    background:#f5f5f5;
     font-family:"Microsoft JhengHei",sans-serif;
-    background:#f2f5f8;
 }
 
 .container{
-    max-width:1200px;
+    max-width:1600px;
     margin:auto;
-}
-
-.card{
-    background:white;
-    border-radius:15px;
     padding:20px;
-    box-shadow:0 2px 10px rgba(0,0,0,.1);
 }
 
-textarea,
-input{
+.form{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+}
 
+textarea,input{
     width:100%;
+    padding:8px;
+    margin:5px 0;
     box-sizing:border-box;
-
-    padding:10px;
-    margin:8px 0;
-
-    border:1px solid #ccc;
-    border-radius:8px;
 }
 
 button{
-
-    padding:12px 20px;
-
-    border:none;
-    border-radius:10px;
-
-    cursor:pointer;
-
-    color:white;
+    padding:10px 20px;
     background:#2563eb;
-
-    margin-right:10px;
-    margin-top:10px;
-}
-
-button:hover{
-
-    background:#1D4ED8;
+    color:white;
+    border:none;
+    border-radius:8px;
 }
 
 #poster{
-
-    background:white;
-
-    width:1400px;
-
-    min-height:900px;
-
-    border:2px solid #333;
-
     margin-top:20px;
-
-    display:flex;
-
-    padding:20px;
-
-    box-sizing:border-box;
+    position:relative;
+    width:1500px;
+    height:1000px;
+    background:white;
+    border:2px solid #333;
 }
 
-.left{
-
-    width:50%;
-    padding-right:20px;
+.left-panel{
+    position:absolute;
+    left:20px;
+    top:20px;
+    width:700px;
+    height:920px;
 }
 
-.right{
-
-    width:50%;
-}
-
-.letter{
-
+.future-letter{
     border:2px dashed #999;
-    min-height:750px;
-
+    height:850px;
     padding:15px;
-
     white-space:pre-wrap;
 }
 
-.node{
-
-    border:2px solid black;
-
-    border-radius:20px;
-
-    padding:12px;
-
-    margin-bottom:10px;
+.tree{
+    position:absolute;
+    right:0;
+    top:0;
+    width:750px;
 }
 
-.quote{
+.tree img{
+    width:100%;
+}
 
+/* 果實 */
+
+.fruit1{
+    position:absolute;
+    top:420px;
+    left:40px;
+    width:90px;
     text-align:center;
-
-    font-size:24px;
-
-    font-weight:bold;
-
-    color:#1e3a8a;
 }
 
-@media(max-width:900px){
+.fruit2{
+    position:absolute;
+    top:420px;
+    right:30px;
+    width:90px;
+    text-align:center;
+}
 
-    #poster{
+/* 花朵 */
 
-        width:100%;
-        display:block;
-    }
+.flower1{
+    position:absolute;
+    top:150px;
+    left:220px;
+    width:90px;
+}
 
-    .left,
-    .right{
+.flower2{
+    position:absolute;
+    top:160px;
+    right:190px;
+    width:90px;
+}
 
-        width:100%;
-    }
+.flower3{
+    position:absolute;
+    top:330px;
+    left:150px;
+    width:90px;
+}
+
+.flower4{
+    position:absolute;
+    top:330px;
+    right:150px;
+    width:90px;
+}
+
+/* 葉片 */
+
+.leaf1{position:absolute;top:10px;left:200px;width:120px;}
+.leaf2{position:absolute;top:15px;left:420px;width:120px;}
+.leaf3{position:absolute;top:120px;left:30px;width:120px;}
+.leaf4{position:absolute;top:120px;right:10px;width:120px;}
+.leaf5{position:absolute;top:250px;left:0px;width:120px;}
+.leaf6{position:absolute;top:250px;right:0px;width:120px;}
+
+/* 樹幹 */
+
+.trunk{
+    position:absolute;
+    top:520px;
+    left:320px;
+    width:120px;
+    text-align:center;
+    font-weight:bold;
+}
+
+/* 根部 */
+
+.root1{position:absolute;bottom:120px;left:30px;width:80px;}
+.root2{position:absolute;bottom:80px;left:180px;width:80px;}
+.root3{position:absolute;bottom:50px;left:320px;width:80px;}
+.root4{position:absolute;bottom:50px;right:320px;width:80px;}
+.root5{position:absolute;bottom:80px;right:180px;width:80px;}
+.root6{position:absolute;bottom:120px;right:30px;width:80px;}
+
+.label{
+    font-size:14px;
+    text-align:center;
+    line-height:1.2;
 }
 
 </style>
@@ -152,50 +169,36 @@ button:hover{
 
 <div class="container">
 
-<div class="card">
+<div class="form">
 
-<h1>🌳 我的十年人生樹</h1>
+<h2>🌳 我的十年人生樹</h2>
 
-<input
-id="quote"
-placeholder="給未來自己的一句話">
+<input id="trunk"
+placeholder="現在的自己">
 
-<textarea
-id="root"
-placeholder="🌱 樹根：核心價值與初衷"></textarea>
+<textarea id="roots"
+placeholder="六個樹根(每行一個)"></textarea>
 
-<textarea
-id="trunk"
-placeholder="🌳 樹幹：現在的自己"></textarea>
+<textarea id="leaves"
+placeholder="六個葉片(每行一個)"></textarea>
 
-<textarea
-id="branch"
-placeholder="🌿 樹枝：未來方向"></textarea>
+<textarea id="flowers"
+placeholder="四個花朵(每行一個)"></textarea>
 
-<textarea
-id="leaf"
-placeholder="🍃 樹葉：達成方法"></textarea>
+<textarea id="fruits"
+placeholder="兩個果實(每行一個)"></textarea>
 
-<textarea
-id="flower"
-placeholder="🌸 花朵：目前成果"></textarea>
-
-<textarea
-id="fruit"
-placeholder="🍎 果實：人生夢想"></textarea>
-
-<textarea
-rows="8"
-id="letter"
-placeholder="💌 給十年後的自己"></textarea>
+<textarea id="letter"
+rows="10"
+placeholder="給十年後的自己"></textarea>
 
 <button onclick="generatePoster()">
 生成人生樹海報
 </button>
 
-<div id="output"></div>
-
 </div>
+
+<div id="result"></div>
 
 </div>
 
@@ -203,146 +206,76 @@ placeholder="💌 給十年後的自己"></textarea>
 
 function generatePoster(){
 
-    const quote =
-    document.getElementById("quote").value;
+const roots=
+document.getElementById("roots")
+.value.split("\\n");
 
-    const root =
-    document.getElementById("root").value;
+const leaves=
+document.getElementById("leaves")
+.value.split("\\n");
 
-    const trunk =
-    document.getElementById("trunk").value;
+const flowers=
+document.getElementById("flowers")
+.value.split("\\n");
 
-    const branch =
-    document.getElementById("branch").value;
+const fruits=
+document.getElementById("fruits")
+.value.split("\\n");
 
-    const leaf =
-    document.getElementById("leaf").value;
+const trunk=
+document.getElementById("trunk").value;
 
-    const flower =
-    document.getElementById("flower").value;
+const letter=
+document.getElementById("letter").value;
 
-    const fruit =
-    document.getElementById("fruit").value;
+document.getElementById("result").innerHTML=`
 
-    const letter =
-    document.getElementById("letter").value;
-
-    document.getElementById("output").innerHTML =
-
-`
 <div id="poster">
 
-<div class="left">
-
-<div class="quote">
-${quote}
-</div>
+<div class="left-panel">
 
 <h2>💌 給十年後的自己</h2>
 
-<div class="letter">
-${letter.replace(/\n/g,"<br>")}
+<div class="future-letter">
+${letter.replace(/\\n/g,"<br>")}
 </div>
 
 </div>
 
-<div class="right">
+<div class="tree">
 
-<div class="node">
-🍎 果實<br>
-${fruit}
-</div>
+<img src="tree-template.png">
 
-<div class="node">
-🌸 花朵<br>
-${flower}
-</div>
+<div class="fruit1 label">${fruits[0]||""}</div>
+<div class="fruit2 label">${fruits[1]||""}</div>
 
-<div class="node">
-🍃 樹葉<br>
-${leaf}
-</div>
+<div class="flower1 label">${flowers[0]||""}</div>
+<div class="flower2 label">${flowers[1]||""}</div>
+<div class="flower3 label">${flowers[2]||""}</div>
+<div class="flower4 label">${flowers[3]||""}</div>
 
-<div class="node">
-🌿 樹枝<br>
-${branch}
-</div>
+<div class="leaf1 label">${leaves[0]||""}</div>
+<div class="leaf2 label">${leaves[1]||""}</div>
+<div class="leaf3 label">${leaves[2]||""}</div>
+<div class="leaf4 label">${leaves[3]||""}</div>
+<div class="leaf5 label">${leaves[4]||""}</div>
+<div class="leaf6 label">${leaves[5]||""}</div>
 
-<div class="node">
-🌳 樹幹<br>
-${trunk}
-</div>
+<div class="trunk">${trunk}</div>
 
-<div class="node">
-🌱 樹根<br>
-${root}
-</div>
+<div class="root1 label">${roots[0]||""}</div>
+<div class="root2 label">${roots[1]||""}</div>
+<div class="root3 label">${roots[2]||""}</div>
+<div class="root4 label">${roots[3]||""}</div>
+<div class="root5 label">${roots[4]||""}</div>
+<div class="root6 label">${roots[5]||""}</div>
 
 </div>
 
 </div>
-
-<br>
-
-<button onclick="downloadPoster()">
-下載 PNG
-</button>
-
-<button onclick="openImage()">
-開啟圖片
-</button>
 
 `;
 
-}
-
-async function downloadPoster(){
-
-    const poster =
-    document.getElementById("poster");
-
-    const canvas =
-    await html2canvas(
-        poster,
-        {
-            scale:2,
-            backgroundColor:"#ffffff"
-        }
-    );
-
-    const link =
-    document.createElement("a");
-
-    link.download =
-    "LifeTree.png";
-
-    link.href =
-    canvas.toDataURL("image/png");
-
-    link.click();
-}
-
-async function openImage(){
-
-    const poster =
-    document.getElementById("poster");
-
-    const canvas =
-    await html2canvas(
-        poster,
-        {
-            scale:2
-        }
-    );
-
-    const win =
-    window.open();
-
-    win.document.write(
-        '<img style="width:100%" src="' +
-        canvas.toDataURL("image/png") +
-        '">'
-    );
 }
 
 </script>
