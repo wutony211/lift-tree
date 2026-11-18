@@ -1,2 +1,351 @@
-<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Life Tree 2.1 Enhanced</title><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><style>body{font-family:Arial,'Microsoft JhengHei';background:#eef2f7;margin:0;padding:20px}.card{background:#fff;border-radius:12px;padding:16px;max-width:1200px;margin:auto}textarea,input{width:100%;box-sizing:border-box;margin:6px 0;padding:8px}button{padding:10px 14px;background:#2563eb;color:#fff;border:0;border-radius:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}#poster{background:#fff;width:1400px;min-height:900px;border:2px solid #333;display:flex;padding:20px}.left,.right{width:50%}.letter{border:1px dashed #888;padding:10px;min-height:700px;white-space:pre-wrap}.node{border:2px solid #333;border-radius:18px;padding:8px;margin:8px 0}.actions{margin-top:10px}@media(max-width:900px){.grid{grid-template-columns:1fr}#poster{width:100%;display:block}.left,.right{width:100%}}</style></head><body><div class='card'><h1>Life Tree 2.1</h1><input id='site' placeholder='Website URL'><div id='qr'></div><button onclick='generateQR()'>產生QR Code</button><div class='grid'><div><input id='quote' placeholder='座右銘'><textarea id='letter' rows='8' placeholder='給十年後的自己'></textarea></div><div><textarea id='root' placeholder='樹根'></textarea><textarea id='trunk' placeholder='樹幹'></textarea><textarea id='branch' placeholder='樹枝'></textarea><textarea id='leaf' placeholder='樹葉'></textarea><textarea id='flower' placeholder='花朵'></textarea><textarea id='fruit' placeholder='果實'></textarea></div></div><button onclick='generatePoster()'>生成人生樹海報</button><div id='out'></div></div><script>function generateQR(){const d=document.getElementById('qr');d.innerHTML='';new QRCode(d,document.getElementById('site').value||location.href);}function generatePoster(){const q=document.getElementById('quote').value,l=document.getElementById('letter').value,r=document.getElementById('root').value,t=document.getElementById('trunk').value,b=document.getElementById('branch').value,le=document.getElementById('leaf').value,f=document.getElementById('flower').value,fr=document.getElementById('fruit').value;document.getElementById('out').innerHTML=`<div id="poster"><div class="left"><h2>${q}</h2><h3>給十年後的自己</h3><div class="letter">${l.replace(/
-/g,'<br>')}</div></div><div class="right"><div class="node">🍎 ${fr}</div><div class="node">🌸 ${f}</div><div class="node">🍃 ${le}</div><div class="node">🌿 ${b}</div><div class="node">🌳 ${t}</div><div class="node">🌱 ${r}</div></div></div><div class='actions'><button onclick='downloadP()'>下載PNG</button><button onclick='openImage()'>開啟圖片</button></div>`;}async function downloadP(){const poster=document.getElementById('poster');if(!poster){alert('請先產生海報');return;}const canvas=await html2canvas(poster,{scale:2,useCORS:true,backgroundColor:'#fff'});canvas.toBlob(async blob=>{if(!blob)return;const file=new File([blob],'LifeTree.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:'Life Tree'});return;}catch(e){}}const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='LifeTree.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});}async function openImage(){const poster=document.getElementById('poster');if(!poster)return;const canvas=await html2canvas(poster,{scale:2});const w=window.open();w.document.write('<img style="width:100%" src="'+canvas.toDataURL('image/png')+'">');}</script></body></html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>我的十年人生樹</title>
+
+<script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+
+body{
+    margin:0;
+    padding:20px;
+    font-family:"Microsoft JhengHei",sans-serif;
+    background:#f2f5f8;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+textarea,
+input{
+
+    width:100%;
+    box-sizing:border-box;
+
+    padding:10px;
+    margin:8px 0;
+
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+
+    padding:12px 20px;
+
+    border:none;
+    border-radius:10px;
+
+    cursor:pointer;
+
+    color:white;
+    background:#2563eb;
+
+    margin-right:10px;
+    margin-top:10px;
+}
+
+button:hover{
+
+    background:#1D4ED8;
+}
+
+#poster{
+
+    background:white;
+
+    width:1400px;
+
+    min-height:900px;
+
+    border:2px solid #333;
+
+    margin-top:20px;
+
+    display:flex;
+
+    padding:20px;
+
+    box-sizing:border-box;
+}
+
+.left{
+
+    width:50%;
+    padding-right:20px;
+}
+
+.right{
+
+    width:50%;
+}
+
+.letter{
+
+    border:2px dashed #999;
+    min-height:750px;
+
+    padding:15px;
+
+    white-space:pre-wrap;
+}
+
+.node{
+
+    border:2px solid black;
+
+    border-radius:20px;
+
+    padding:12px;
+
+    margin-bottom:10px;
+}
+
+.quote{
+
+    text-align:center;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#1e3a8a;
+}
+
+@media(max-width:900px){
+
+    #poster{
+
+        width:100%;
+        display:block;
+    }
+
+    .left,
+    .right{
+
+        width:100%;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>🌳 我的十年人生樹</h1>
+
+<input
+id="quote"
+placeholder="給未來自己的一句話">
+
+<textarea
+id="root"
+placeholder="🌱 樹根：核心價值與初衷"></textarea>
+
+<textarea
+id="trunk"
+placeholder="🌳 樹幹：現在的自己"></textarea>
+
+<textarea
+id="branch"
+placeholder="🌿 樹枝：未來方向"></textarea>
+
+<textarea
+id="leaf"
+placeholder="🍃 樹葉：達成方法"></textarea>
+
+<textarea
+id="flower"
+placeholder="🌸 花朵：目前成果"></textarea>
+
+<textarea
+id="fruit"
+placeholder="🍎 果實：人生夢想"></textarea>
+
+<textarea
+rows="8"
+id="letter"
+placeholder="💌 給十年後的自己"></textarea>
+
+<button onclick="generatePoster()">
+生成人生樹海報
+</button>
+
+<div id="output"></div>
+
+</div>
+
+</div>
+
+<script>
+
+function generatePoster(){
+
+    const quote =
+    document.getElementById("quote").value;
+
+    const root =
+    document.getElementById("root").value;
+
+    const trunk =
+    document.getElementById("trunk").value;
+
+    const branch =
+    document.getElementById("branch").value;
+
+    const leaf =
+    document.getElementById("leaf").value;
+
+    const flower =
+    document.getElementById("flower").value;
+
+    const fruit =
+    document.getElementById("fruit").value;
+
+    const letter =
+    document.getElementById("letter").value;
+
+    document.getElementById("output").innerHTML =
+
+`
+<div id="poster">
+
+<div class="left">
+
+<div class="quote">
+${quote}
+</div>
+
+<h2>💌 給十年後的自己</h2>
+
+<div class="letter">
+${letter.replace(/\n/g,"<br>")}
+</div>
+
+</div>
+
+<div class="right">
+
+<div class="node">
+🍎 果實<br>
+${fruit}
+</div>
+
+<div class="node">
+🌸 花朵<br>
+${flower}
+</div>
+
+<div class="node">
+🍃 樹葉<br>
+${leaf}
+</div>
+
+<div class="node">
+🌿 樹枝<br>
+${branch}
+</div>
+
+<div class="node">
+🌳 樹幹<br>
+${trunk}
+</div>
+
+<div class="node">
+🌱 樹根<br>
+${root}
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<button onclick="downloadPoster()">
+下載 PNG
+</button>
+
+<button onclick="openImage()">
+開啟圖片
+</button>
+
+`;
+
+}
+
+async function downloadPoster(){
+
+    const poster =
+    document.getElementById("poster");
+
+    const canvas =
+    await html2canvas(
+        poster,
+        {
+            scale:2,
+            backgroundColor:"#ffffff"
+        }
+    );
+
+    const link =
+    document.createElement("a");
+
+    link.download =
+    "LifeTree.png";
+
+    link.href =
+    canvas.toDataURL("image/png");
+
+    link.click();
+}
+
+async function openImage(){
+
+    const poster =
+    document.getElementById("poster");
+
+    const canvas =
+    await html2canvas(
+        poster,
+        {
+            scale:2
+        }
+    );
+
+    const win =
+    window.open();
+
+    win.document.write(
+        '<img style="width:100%" src="' +
+        canvas.toDataURL("image/png") +
+        '">'
+    );
+}
+
+</script>
+
+</body>
+</html>
